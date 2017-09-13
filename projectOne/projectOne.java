@@ -33,7 +33,7 @@ public class projectOne {
      	SSTF(ref);
      	SCAN(ref);
      	CSCAN(ref);
-//     	CLOOK(ref);
+     	CLOOK(ref);
 //     	LOOK(ref);
 
      	
@@ -172,29 +172,38 @@ public class projectOne {
 	public static void CSCAN(int[] transit)
 	{
 		int[] updatedSequence = transit;
-		int min=0, sum=0;
-		int indexNearLeft=0, indexNearRight=0;
-		int distanceOne= Math.abs(updatedSequence[0]-initialPoint);
-		for(int i=1;i<updatedSequence.length;i++) 
-		{			
-			if(updatedSequence[i]-initialPoint<distanceOne && updatedSequence[i]-initialPoint>=0)
-			{
-				distanceOne=updatedSequence[i]-initialPoint;
-				indexNearRight=i;
-				System.out.println("@@@@@@@@@@@@");
-			}
+		int temp, sum=0;
+		int indexLeft=0, indexRight=0;
 
-//			if(initialPoint-updatedSequence[i]<distanceOne)
-//			{
-//				distanceOne=updatedSequence[i]-initialPoint;
-//				indexNearRight=i;
-//				System.out.println("@@@@@@@@@@@@");
-//			}
+		for(int i=0;i<updatedSequence.length-1;i++)
+			for(int j=i+1;j<updatedSequence.length;j++)
+                 if(Math.abs(updatedSequence[i])>Math.abs(updatedSequence[j]))
+                	 {
+                	    temp=updatedSequence[i];
+                	    updatedSequence[i]=updatedSequence[j];
+                	    updatedSequence[j]=temp;
+                	 }
+		
+		for(int i=0;i<updatedSequence.length;i++)  // get the index of nearest position on the right side
+		{
+			if(updatedSequence[i]>=initialPoint)
+			{
+				indexRight=i;
+				break;
+			}
+		}
+		
+		for(int i=updatedSequence.length-1;i>=0;i--)
+		{
+			if(updatedSequence[i]<initialPoint)
+			{
+				indexLeft=i;
+				break;
+			}
 		}
 		
 		  
-		System.out.println("Index Near Right: "+ indexNearRight);
-        sum+= (maxCylinder-minCylinder)-(updatedSequence[indexNearRight]-updatedSequence[indexNearLeft]);
+        sum+= (maxCylinder-minCylinder)-(updatedSequence[indexRight]-updatedSequence[indexLeft]);
         System.out.println("Head movements for CSCAN: " + sum);
 	    System.out.println();
 		
@@ -211,7 +220,50 @@ public class projectOne {
 	
 	public static void CLOOK(int[] transit)
 	{
+		int[] updatedSequence = transit;
+		int temp, sum=0;
+		int indexLeft=0, indexRight=0;
+
+		for(int i=0;i<updatedSequence.length-1;i++)
+			for(int j=i+1;j<updatedSequence.length;j++)
+                 if(Math.abs(updatedSequence[i])>Math.abs(updatedSequence[j]))
+                	 {
+                	    temp=updatedSequence[i];
+                	    updatedSequence[i]=updatedSequence[j];
+                	    updatedSequence[j]=temp;
+                	 }
 		
+		for(int i=0;i<updatedSequence.length;i++)  // get the index of nearest position on the right side
+		{
+			if(updatedSequence[i]>=initialPoint)
+			{
+				indexRight=i;
+				break;
+			}
+		}
+		
+		for(int i=updatedSequence.length-1;i>=0;i--)
+		{
+			if(updatedSequence[i]<initialPoint)
+			{
+				indexLeft=i;
+				break;
+			}
+		}
+		
+		if((updatedSequence[indexRight]-initialPoint)>(initialPoint-updatedSequence[indexLeft]))
+		{
+			sum+=updatedSequence[updatedSequence.length-1]-updatedSequence[indexRight];
+			sum+=initialPoint-updatedSequence[0];
+		}
+		else 
+		{
+			sum+=updatedSequence[updatedSequence.length-1]-initialPoint;
+			sum+=updatedSequence[indexLeft]-updatedSequence[0];
+		}
+
+        System.out.println("Head movements for CLOOK: " + sum);
+	    System.out.println();
 		
 		
 		
