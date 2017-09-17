@@ -9,10 +9,11 @@ public class projectOne {
    public static int maxCylinder=200;
    public static int numRequest=10;
    public static int initialPoint=33;
+   public static int sumFromScan;
 	
 	public static void main(String[] args) {
 
-		//defaultNum(); // request user to confirm and update variables
+		defaultNum(); // request user to confirm and update variables
 		
 		//generate sequence
 		Generator gen = new Generator(numRequest);
@@ -30,13 +31,16 @@ public class projectOne {
      	   }
      	System.out.println();
      	System.out.println();
+     	System.out.println("The initial point of sequence is: "+initialPoint );
+     	System.out.println();
      	
-//     	FCFS(ref); 
-//     	SSTF(ref);
+     	FCFS(ref); 
+     	SSTF(ref);
      	SCAN(ref);
      	CSCAN(ref);
-//     	CLOOK(ref);
-//     	LOOK(ref);
+        LOOK(ref);
+     	CLOOK(ref);
+  
 
      	
 	}
@@ -56,9 +60,36 @@ public class projectOne {
 		if(ans.equals("Y")||ans.equals("y"))
 		 {
 			System.out.println("Y ");
+			System.out.println();
+			System.out.println("SUGGESTION: Cylinder starts at least 0; Maximum is 500: ");
+			System.out.println("");
+			System.out.println("Please Input Parameters As Intructed(ALL NUMBERS SHALL BE 'INT' TYPE): ");
+			
+			System.out.println();
+			System.out.println("Input value for Minimum Cylinder:");
+			Scanner minCylinerInput= new Scanner(System.in);
+			int mcInput=minCylinerInput.nextInt();
+			minCylinder=mcInput;
+			
+			System.out.println();
+			System.out.println("Input value for Maximum Cylinder:");
+			Scanner maxCylinerInput= new Scanner(System.in);
+			int mxcInput=maxCylinerInput.nextInt();
+			maxCylinder=mcInput;
+			
+			System.out.println();
+			System.out.println("Input value for No. of Request:");
+			Scanner nreqInput= new Scanner(System.in);
+			int nrInput=nreqInput.nextInt();
+			numRequest=nrInput;
+			
+			System.out.println();
+			System.out.println("Input value for Initial Point:");
+			Scanner iniPointInput= new Scanner(System.in);
+			int ipInput=iniPointInput.nextInt();
+			initialPoint=ipInput;
 			
 			
-			//////////////////////////////////////////////////////////////////////////////////////////////
 			
 		 }
 		
@@ -102,15 +133,17 @@ public class projectOne {
 	
 	public static void SSTF(int[] transit)
 	{
-		int[] updatedSequence = transit;	
+		int[] updatedSequence = new int[transit.length];	
 		int[] arrayList = new int[transit.length];
 		int[] sortedSeq = new int[transit.length];
 		int temp=0, sum=0, minDistance=0, k=0;
 		int nsPoint=initialPoint;
-		arrayList=transit;
-//		minDistance=Math.abs(arrayList[0]-initialPoint);
 		
-		
+		for(int i=0;i<transit.length;i++)
+			{
+				updatedSequence[i]=transit[i];
+				arrayList[i]=transit[i];;
+			}
 		
 		for(int p=0;p<arrayList.length;p++)
 		{			
@@ -125,7 +158,6 @@ public class projectOne {
 					temp=i;
 				}
 			}
-		    	System.out.println();
 		    	nsPoint=arrayList[temp];
 		    	sortedSeq[p]=nsPoint;
 				arrayList[temp]=-1000;
@@ -133,8 +165,8 @@ public class projectOne {
 		}
 			
 		for(int i=1;i<sortedSeq.length-1;i++)
-			sum+=sortedSeq[i]-sortedSeq[i-1];
-		sum+=sortedSeq[0]-initialPoint;
+			sum+=Math.abs(sortedSeq[i]-sortedSeq[i-1]);
+		sum+=Math.abs(sortedSeq[0]-initialPoint);
 
 		
 		  System.out.println("********************************************" );
@@ -151,11 +183,20 @@ public class projectOne {
 	
 	public static void SCAN(int[] transit)
 	{
-		int[] updatedSequence = transit;
-		int[] tempSequence = transit;
+		int[] updatedSequence = new int[transit.length];
+		int[] tempSequence =  new int[transit.length];
 		int min=0, max=0, sum=0;
 		int index=0;
-		int distance= Math.abs(updatedSequence[0]-initialPoint);
+		int distance;
+		
+		for(int i=0;i<transit.length;i++)
+		{
+			updatedSequence[i]=transit[i];
+			tempSequence[i]=transit[i];
+			
+		}
+		distance= Math.abs(updatedSequence[0]-initialPoint);
+		
 		for(int i=0;i<updatedSequence.length;i++)
 		{
 			if(i==0)
@@ -221,8 +262,119 @@ public class projectOne {
 					 System.out.print(tempSequence[it]+", ");
 					 
 //			
-			    	  sum+=initialPoint-minCylinder;
-			    	  sum+=max;
+			    	  sum+=Math.abs(initialPoint-minCylinder);
+			    	  sum+=Math.abs(max-minCylinder);
+			    	
+			    
+			}
+		else 
+			{
+			 
+				int m=tempSequence.length-1;
+				while(tempSequence[m]>initialPoint)
+				{
+					startRightIndex=m;
+					m--;
+				}
+			
+				 	
+					 System.out.println("********************************************" );
+					 System.out.println("Head movement sequence for SCAN: " );
+					 for(int it=startRightIndex;it<tempSequence.length;it++)
+						 System.out.print(tempSequence[it]+", ");
+					 System.out.print(maxCylinder+", ");
+					 for(int it=startRightIndex-1;it>=0;it--)
+						 System.out.print(tempSequence[it]+", ");
+				 	
+					   sum+=Math.abs(maxCylinder-initialPoint);
+					 	sum+=Math.abs(maxCylinder-min);
+			 
+			
+			}
+		
+		
+		sumFromScan=sum;
+
+		  System.out.println();
+		  System.out.println("Head movements for SCAN: " + sum);
+		  System.out.println("********************************************" );
+			 System.out.println();
+	}
+	
+	public static void CSCAN(int[] transit)
+	{		
+		int[] updatedSequence = transit;
+		int[] tempSequence = transit;
+		int min=0, max=0, sum=0;
+		int index=0;
+		int distance= Math.abs(updatedSequence[0]-initialPoint);
+		for(int i=0;i<updatedSequence.length;i++)
+		{
+			if(i==0)
+			{
+				min=updatedSequence[0];
+				max=updatedSequence[0];
+			}
+			else 
+			{
+				if(updatedSequence[i]<min)  // find the minimum number in sequence
+					min=updatedSequence[i];
+				
+				if(updatedSequence[i]>max)   // find the maximum number in sequence
+					max=updatedSequence[i];
+				
+		    }
+			
+			if(Math.abs(updatedSequence[i]-initialPoint)<distance)  // locate the nearest point on disk to start with
+			{
+				distance=Math.abs(updatedSequence[i]-initialPoint);
+				index=i;
+				
+
+			}
+				
+		}
+//		System.out.println(updatedSequence[index]+"<<< "+index +" >>>>>");
+		
+		for(int i=0;i<updatedSequence.length;i++)
+			tempSequence[i]=updatedSequence[i];
+		// re arrange from smallest to largest in sequence
+		int temp, startLeftIndex=0,startRightIndex=0;
+		for(int i=0;i<tempSequence.length-1;i++)
+			for(int j=i+1;j<tempSequence.length;j++)
+                 if(tempSequence[i]>tempSequence[j])
+                	 {
+                	    temp=tempSequence[i];
+                	    tempSequence[i]=tempSequence[j];
+                	    tempSequence[j]=temp;
+                	 }
+		
+
+		// confirm if the nearest point is on the left side or the right side
+		if(updatedSequence[index]<=initialPoint)
+			{
+//			    
+				int i=0;
+				while(tempSequence[i]<=initialPoint)
+				{
+					startLeftIndex=i;
+					
+					i++;
+				}
+				
+				
+				 System.out.println("********************************************" );
+				 System.out.println("Head movement sequence for CSCAN: " );
+				 for(int it=startLeftIndex;it>=0;it--)
+					 System.out.print(tempSequence[it]+", ");
+				 System.out.print(minCylinder+", ");
+				 System.out.print(maxCylinder+", ");
+				 for(int it=tempSequence.length-1;it>=startLeftIndex+1;it--)
+					 System.out.print(tempSequence[it]+", ");
+					 
+				 sum+=tempSequence[startLeftIndex];
+				 sum+=maxCylinder-tempSequence[startLeftIndex+1];
+//			
 			    	
 			    
 			}
@@ -239,63 +391,23 @@ public class projectOne {
 				 	sum+=maxCylinder-initialPoint;
 				 	sum+=max-min;
 					 System.out.println("********************************************" );
-					 System.out.println("Head movement sequence for SCAN: " );
+					 System.out.println("Head movement sequence for CSCAN: " );
 					 for(int it=startRightIndex;it<tempSequence.length;it++)
 						 System.out.print(tempSequence[it]+", ");
 					 System.out.print(maxCylinder+", ");
-					 for(int it=startRightIndex-1;it>=0;it--)
+					 System.out.print(minCylinder+", ");
+					 for(int it=0;it<=startRightIndex-1;it++)
 						 System.out.print(tempSequence[it]+", ");
 				 	
 //		    
 			 
 			
 			}
-		
-		
 
 		  System.out.println();
 		  System.out.println("Head movements for SCAN: " + sum);
 		  System.out.println("********************************************" );
 			 System.out.println();
-	}
-	
-	public static void CSCAN(int[] transit)
-	{
-		int[] updatedSequence = transit;
-		int temp, sum=0;
-		int indexLeft=0, indexRight=0;
-
-		for(int i=0;i<updatedSequence.length-1;i++)
-			for(int j=i+1;j<updatedSequence.length;j++)
-                 if(Math.abs(updatedSequence[i])>Math.abs(updatedSequence[j]))
-                	 {
-                	    temp=updatedSequence[i];
-                	    updatedSequence[i]=updatedSequence[j];
-                	    updatedSequence[j]=temp;
-                	 }
-		
-		for(int i=0;i<updatedSequence.length;i++)  // get the index of nearest position on the right side
-		{
-			if(updatedSequence[i]>=initialPoint)
-			{
-				indexRight=i;
-				break;
-			}
-		}
-		
-		for(int i=updatedSequence.length-1;i>=0;i--)
-		{
-			if(updatedSequence[i]<initialPoint)
-			{
-				indexLeft=i;
-				break;
-			}
-		}
-		
-		  
-        sum+= (maxCylinder-minCylinder)-(updatedSequence[indexRight]-updatedSequence[indexLeft]);
-        System.out.println("Head movements for CSCAN: " + sum);
-	    System.out.println();
 		
 		
 	}
@@ -372,8 +484,8 @@ public class projectOne {
 					 System.out.print(tempSequence[it]+", ");
 					 
 //			
-			    	  sum+=initialPoint-minCylinder;
-			    	  sum+=max;
+				  sum+=initialPoint-minCylinder;
+		    	  sum+=max-minCylinder;
 			    	
 			    
 			}
@@ -387,8 +499,7 @@ public class projectOne {
 					m--;
 				}
 			
-				 	sum+=maxCylinder-initialPoint;
-				 	sum+=max-min;
+				 	
 					 System.out.println("********************************************" );
 					 System.out.println("Head movement sequence for LOOK: " );
 					 for(int it=startRightIndex;it<tempSequence.length;it++)
@@ -397,7 +508,8 @@ public class projectOne {
 					 for(int it=startRightIndex-1;it>=0;it--)
 						 System.out.print(tempSequence[it]+", ");
 				 	
-//		    
+					 sum+=maxCylinder-initialPoint;
+					 sum+=maxCylinder-min;
 			 
 			
 			}
@@ -405,62 +517,120 @@ public class projectOne {
 		
 
 		  System.out.println();
-		  System.out.println("Head movements for LOOK: " + sum);
+		  System.out.println("Head movements for LOOK: " + sumFromScan);
 		  System.out.println("********************************************" );
 			 System.out.println();
-		
-
-		
+	
 		
 	}
 	
 	public static void CLOOK(int[] transit)
 	{
 		int[] updatedSequence = transit;
-		int temp, sum=0;
-		int indexLeft=0, indexRight=0;
+		int[] tempSequence = transit;
+		int min=0, max=0, sum=0;
+		int index=0;
+		int distance= Math.abs(updatedSequence[0]-initialPoint);
+		for(int i=0;i<updatedSequence.length;i++)
+		{
+			if(i==0)
+			{
+				min=updatedSequence[0];
+				max=updatedSequence[0];
+			}
+			else 
+			{
+				if(updatedSequence[i]<min)  // find the minimum number in sequence
+					min=updatedSequence[i];
+				
+				if(updatedSequence[i]>max)   // find the maximum number in sequence
+					max=updatedSequence[i];
+				
+		    }
+			
+			if(Math.abs(updatedSequence[i]-initialPoint)<distance)  // locate the nearest point on disk to start with
+			{
+				distance=Math.abs(updatedSequence[i]-initialPoint);
+				index=i;
+				
 
-		for(int i=0;i<updatedSequence.length-1;i++)
-			for(int j=i+1;j<updatedSequence.length;j++)
-                 if(Math.abs(updatedSequence[i])>Math.abs(updatedSequence[j]))
+			}
+				
+		}
+//		System.out.println(updatedSequence[index]+"<<< "+index +" >>>>>");
+		
+		for(int i=0;i<updatedSequence.length;i++)
+			tempSequence[i]=updatedSequence[i];
+		// re arrange from smallest to largest in sequence
+		int temp, startLeftIndex=0,startRightIndex=0;
+		for(int i=0;i<tempSequence.length-1;i++)
+			for(int j=i+1;j<tempSequence.length;j++)
+                 if(tempSequence[i]>tempSequence[j])
                 	 {
-                	    temp=updatedSequence[i];
-                	    updatedSequence[i]=updatedSequence[j];
-                	    updatedSequence[j]=temp;
+                	    temp=tempSequence[i];
+                	    tempSequence[i]=tempSequence[j];
+                	    tempSequence[j]=temp;
                 	 }
 		
-		for(int i=0;i<updatedSequence.length;i++)  // get the index of nearest position on the right side
-		{
-			if(updatedSequence[i]>=initialPoint)
-			{
-				indexRight=i;
-				break;
-			}
-		}
-		
-		for(int i=updatedSequence.length-1;i>=0;i--)
-		{
-			if(updatedSequence[i]<initialPoint)
-			{
-				indexLeft=i;
-				break;
-			}
-		}
-		
-		if((updatedSequence[indexRight]-initialPoint)>(initialPoint-updatedSequence[indexLeft]))
-		{
-			sum+=updatedSequence[updatedSequence.length-1]-updatedSequence[indexRight];
-			sum+=initialPoint-updatedSequence[0];
-		}
-		else 
-		{
-			sum+=updatedSequence[updatedSequence.length-1]-initialPoint;
-			sum+=updatedSequence[indexLeft]-updatedSequence[0];
-		}
 
-        System.out.println("Head movements for CLOOK: " + sum);
-	    System.out.println();
+//		System.out.println(updatedSequence[index]+"<<<<<"+index +">>>>>");
+		// confirm if the nearest point is on the left side or the right side
+		if(updatedSequence[index]<=initialPoint)
+			{
+//			    
+				int i=0;
+				while(tempSequence[i]<=initialPoint)
+				{
+					startLeftIndex=i;
+					
+					i++;
+				}
+				
+				
+				 System.out.println("********************************************" );
+				 System.out.println("Head movement sequence for CLOOK: " );
+				 for(int it=startLeftIndex;it>=0;it--)
+					 System.out.print(tempSequence[it]+", ");
+				 for(int it=tempSequence.length-1;it>=startLeftIndex+1;it--)
+					 System.out.print(tempSequence[it]+", ");
+					 
+//			
+			    	  sum+=initialPoint-tempSequence[0];
+			    	  sum+=tempSequence[tempSequence.length-1]-tempSequence[startLeftIndex+1];
+			    	
+			    
+			}
+		else 
+			{
+			 
+				int m=tempSequence.length-1;
+				while(tempSequence[m]>initialPoint)
+				{
+					startRightIndex=m;
+					m--;
+				}
+			
+					 System.out.println("********************************************" );
+					 System.out.println("Head movement sequence for CLOOK: " );
+					 for(int it=startRightIndex;it<tempSequence.length;it++)
+						 System.out.print(tempSequence[it]+", ");
+					 for(int it=0;it<=startRightIndex-1;it++)
+						 System.out.print(tempSequence[it]+", ");
+				 	
+					 sum+=tempSequence[tempSequence.length-1]-initialPoint;
+					 sum+=tempSequence[startRightIndex-1]-tempSequence[0];
+
+			
+			}
 		
+		
+
+		  System.out.println();
+		  System.out.println("Head movements for CLOOK: " + sum );
+		  System.out.println("********************************************" );
+			 System.out.println();
+		
+
 		
 		
 	}
