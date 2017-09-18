@@ -123,6 +123,7 @@ public class projectOne {
 		
 	 System.out.println("********************************************" );
 	 System.out.println("Head movement sequence for FCFS: " );
+	 System.out.print(initialPoint+ ", " );
 	 for(int i=0;i<transit.length;i++)
 		 System.out.print(transit[i]+", " );
 	 System.out.println();
@@ -171,6 +172,7 @@ public class projectOne {
 		
 		  System.out.println("********************************************" );
 			 System.out.println("Head movement sequence for SSTF: " );
+			 System.out.print(initialPoint+ ", " );
 			 for(int i=0;i<sortedSeq.length;i++)
 				 System.out.print(sortedSeq[i]+", " );
 			 System.out.println();
@@ -255,6 +257,7 @@ public class projectOne {
 				
 				 System.out.println("********************************************" );
 				 System.out.println("Head movement sequence for SCAN: " );
+				 System.out.print(initialPoint+ ", " );
 				 for(int it=startLeftIndex;it>=0;it--)
 					 System.out.print(tempSequence[it]+", ");
 				 System.out.print(minCylinder+", ");
@@ -280,6 +283,7 @@ public class projectOne {
 				 	
 					 System.out.println("********************************************" );
 					 System.out.println("Head movement sequence for SCAN: " );
+					 System.out.print(initialPoint+ ", " );
 					 for(int it=startRightIndex;it<tempSequence.length;it++)
 						 System.out.print(tempSequence[it]+", ");
 					 System.out.print(maxCylinder+", ");
@@ -365,6 +369,7 @@ public class projectOne {
 				
 				 System.out.println("********************************************" );
 				 System.out.println("Head movement sequence for CSCAN: " );
+				 System.out.print(initialPoint+ ", " );
 				 for(int it=startLeftIndex;it>=0;it--)
 					 System.out.print(tempSequence[it]+", ");
 				 System.out.print(minCylinder+", ");
@@ -392,6 +397,7 @@ public class projectOne {
 				 	sum+=max-min;
 					 System.out.println("********************************************" );
 					 System.out.println("Head movement sequence for CSCAN: " );
+					 System.out.print(initialPoint+ ", " );
 					 for(int it=startRightIndex;it<tempSequence.length;it++)
 						 System.out.print(tempSequence[it]+", ");
 					 System.out.print(maxCylinder+", ");
@@ -477,6 +483,7 @@ public class projectOne {
 				
 				 System.out.println("********************************************" );
 				 System.out.println("Head movement sequence for LOOK: " );
+				 System.out.print(initialPoint+ ", " );
 				 for(int it=startLeftIndex;it>=0;it--)
 					 System.out.print(tempSequence[it]+", ");
 				 System.out.print(minCylinder+", ");
@@ -502,6 +509,7 @@ public class projectOne {
 				 	
 					 System.out.println("********************************************" );
 					 System.out.println("Head movement sequence for LOOK: " );
+					 System.out.print(initialPoint+ ", " );
 					 for(int it=startRightIndex;it<tempSequence.length;it++)
 						 System.out.print(tempSequence[it]+", ");
 					 System.out.print(maxCylinder+", ");
@@ -589,6 +597,7 @@ public class projectOne {
 				
 				 System.out.println("********************************************" );
 				 System.out.println("Head movement sequence for CLOOK: " );
+				 System.out.print(initialPoint+ ", " );
 				 for(int it=startLeftIndex;it>=0;it--)
 					 System.out.print(tempSequence[it]+", ");
 				 for(int it=tempSequence.length-1;it>=startLeftIndex+1;it--)
@@ -612,6 +621,7 @@ public class projectOne {
 			
 					 System.out.println("********************************************" );
 					 System.out.println("Head movement sequence for CLOOK: " );
+					 System.out.print(initialPoint+ ", " );
 					 for(int it=startRightIndex;it<tempSequence.length;it++)
 						 System.out.print(tempSequence[it]+", ");
 					 for(int it=0;it<=startRightIndex-1;it++)
